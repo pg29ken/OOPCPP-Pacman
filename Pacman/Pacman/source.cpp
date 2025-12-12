@@ -3,10 +3,12 @@
 #include "Utils.hpp"
 #include "InputManager.hpp"
 #include "Board.hpp"
+#include "Entity.hpp"
 int main()
 {
     InputManager inputMgr;
     Board board;
+    Entity pacman = Entity("Pacman", {26, 13});
 
     LOG_LN("Press arrow keys (UP, DOWN, LEFT, RIGHT). Press 'Q' to quit.\n");
     board.RenderBoard();
@@ -21,19 +23,15 @@ int main()
 
             const InputState& state = inputMgr.GetState();
 
-            if (state.IsUp())    LOG_LN("UP\n");
-            // change pacman direction to up
-            else if (state.IsDown())  LOG_LN("DOWN\n");
-            // change pacman direction to down
-            else if (state.IsLeft())  LOG_LN("LEFT\n");
-            // change pacman direction to left
-            else if (state.IsRight()) LOG_LN("RIGHT\n");
-            // change pacman direction to right
+            if (state.IsUp()) pacman.SetDirection(MoveDirection::UP);
+            else if (state.IsDown())  pacman.SetDirection(MoveDirection::DOWN);
+            else if (state.IsLeft())  pacman.SetDirection(MoveDirection::LEFT);
+            else if (state.IsRight()) pacman.SetDirection(MoveDirection::RIGHT);
 
             if (GetAsyncKeyState('Q') & 0x8000)
                 running = false;
 
-
+            LOG_LN(pacman.GetDirection());
             // call pacman.move
             // call ghost.move
         }

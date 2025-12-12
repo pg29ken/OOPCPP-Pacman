@@ -1,5 +1,4 @@
 // Copyright @ Vi Tran - VFS 2025-2026
-
 #include "Board.hpp"
 
 #include "Utils.hpp"
@@ -26,7 +25,7 @@ void Board::Init()
                 dataBoard[r][c] = Consumable("Pellet", { r, c });
             }
             else if (symbol == 'o') {
-                dataBoard[r][c] = PowerPellet();
+                //dataBoard[r][c] = PowerPellet();
             }
             else {
                 dataBoard[r][c] = Object("Empty", { r, c });

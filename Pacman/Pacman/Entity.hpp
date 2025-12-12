@@ -22,5 +22,7 @@ protected:
 
 public:
 	bool IsAlive();
+	void SetDirection(MoveDirection newDirection);
 	MoveDirection GetDirection();
+	std::pair<int, int> GetPosition();
 };
