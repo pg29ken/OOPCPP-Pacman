@@ -1,5 +1,15 @@
 #include "InputManager.hpp"
 #include <windows.h>
+#include "EventHandler.hpp"
+
+EventHandler::EventHandler()
+{
+}
+
+void EventHandler::TickFunction()
+{
+
+}
 
 void InputManager::Update()
 {
