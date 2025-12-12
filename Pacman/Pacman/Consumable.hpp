@@ -7,7 +7,7 @@
 class Consumable : Object
 {
 public:
-	Consumable(std::pair<int,int> Position) : Object(Position), _points(10) { }
+	Consumable(std::string Name, std::pair<int,int> Position) : Object(Name, Position), _points(10) { }
 	Consumable(std::string Name) : Object(Name), _points(10) { }
 protected:
 	int _points;
