@@ -8,6 +8,7 @@ class Consumable : Object
 {
 public:
 	Consumable() : Object(), _points(10) {}
+	virtual void OnConsumed() {}
 protected:
 	int _points;
 };

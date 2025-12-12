@@ -10,4 +10,9 @@ bool Entity::IsAlive()
 	return _isAlive;
 }
 
+MoveDirection Entity::GetDirection()
+{
+	return _moveDirection;
+}
+
 
