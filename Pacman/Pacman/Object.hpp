@@ -10,6 +10,7 @@ public:
 	Object(std::pair<int, int> Position) : _name("Object"), _position(Position) {}
 	Object(std::string Name, std::pair<int,int> Position) : _name(Name), _position(Position){ }
 	Object(std::string Name) : _name(Name), _position({0,0}) { }
+	Object() : _name("Object"), _position(0,0) {}
 protected:
 	std::string _name;
 	std::pair<int, int> _position;
