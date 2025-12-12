@@ -127,13 +127,16 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="PowerPellet.cpp" />
     <ClCompile Include="source.cpp" />
+    <ClCompile Include="TickManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Consumable.hpp" />
     <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="EventHandler.hpp" />
     <ClInclude Include="InputManager.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="PowerPellet.hpp" />
+    <ClInclude Include="TickManager.hpp" />
     <ClInclude Include="Utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
