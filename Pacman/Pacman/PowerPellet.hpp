@@ -4,7 +4,7 @@
 #include "Utils.hpp"
 #include "Consumable.hpp"
 
-class PowerPellet : Consumable
+class PowerPellet : public Consumable
 {
 public:
 	void OnConsume(); // Calls Game Manager -> turns on FreightMode

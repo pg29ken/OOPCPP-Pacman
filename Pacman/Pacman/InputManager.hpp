@@ -1,4 +1,6 @@
 #pragma once
+// Copyright @ Vi Tran - VFS 2025-2026
+
 
 class InputState
 {

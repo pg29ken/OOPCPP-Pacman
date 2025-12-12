@@ -4,7 +4,7 @@
 #include "Utils.hpp"
 #include "Object.hpp"
 
-class Consumable : Object
+class Consumable : public Object
 {
 public:
 	Consumable(std::string Name, std::pair<int,int> Position) : Object(Name, Position), _points(10) { }
