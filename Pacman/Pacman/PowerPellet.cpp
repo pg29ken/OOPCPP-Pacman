@@ -1,6 +1,7 @@
 #include "PowerPellet.hpp"
 
-void PowerPellet::OnConsume()
+void PowerPellet::OnConsumed()
 {
-	// Activate FreightMode
+	Consumable::OnConsumed();
+	// Activate Freight Mode
 }
