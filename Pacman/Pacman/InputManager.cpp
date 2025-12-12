@@ -8,7 +8,7 @@ EventHandler::EventHandler()
 
 void EventHandler::TickFunction()
 {
-
+    //while ()
 }
 
 void InputManager::Update()
