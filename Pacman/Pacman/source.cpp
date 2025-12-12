@@ -1,5 +1,5 @@
 #include <iostream>
-#include <windows.h> // For Sleep
+#include <windows.h>
 #include "Utils.hpp"
 #include "InputManager.hpp"
 
