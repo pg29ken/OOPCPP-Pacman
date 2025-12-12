@@ -7,8 +7,8 @@
 class Consumable : Object
 {
 public:
-	Consumable() : Object(), _points(10) {}
-	virtual void OnConsumed() {}
+	Consumable(std::pair<int,int> Position) : Object(Position), _points(10) { }
+	Consumable() : _points(10) { }
 protected:
 	int _points;
 };
