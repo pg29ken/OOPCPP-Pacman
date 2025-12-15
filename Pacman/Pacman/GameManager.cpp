@@ -157,8 +157,8 @@ void GameManager::StartGame()
 	const InputState& state = inputManager.GetState();
 	Board board;
 	Pacman pacman;
-	board.ChangeCell(pacman.GetPosition(), 'p');
 	board.RenderBoard();
+	board.ChangeCell(pacman.GetPosition(), 'p');
 
 	TickManager::GetInstance()->StartAutoTick(1000);
 	bool isGameRunning = true;

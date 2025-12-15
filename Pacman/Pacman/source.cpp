@@ -13,7 +13,6 @@ int main()
     // BOard
     Pacman player;
     // gamemanager
-    LOG_LN("Press arrow keys (UP, DOWN, LEFT, RIGHT). Press 'Q' to quit.\n");
 
 
     GameManager::GetInstance()->StartGame();
