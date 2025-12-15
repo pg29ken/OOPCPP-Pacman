@@ -94,3 +94,14 @@ void Board::RestoreCell(std::pair<int, int> pos)
     }
 }
 
+std::pair<int, int> Board::WrapPosition(const std::pair<int, int>& pos)
+{
+    int row = pos.first;
+    int col = pos.second;
+
+    if (col < 0) col = _cols - 1;
+    else if (col >= _cols) col = 0;
+
+    return { row, col };
+}
+

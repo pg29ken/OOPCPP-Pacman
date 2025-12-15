@@ -5,6 +5,7 @@
 #include "InputManager.hpp"
 #include "Board.hpp"
 #include "Pacman.hpp"
+#include "Ghost.hpp"
 #include <cstdlib>
 #include <windows.h>
 
@@ -157,6 +158,12 @@ void GameManager::StartGame()
 	const InputState& state = inputManager.GetState();
 	Board board;
 	Pacman pacman;
+
+	std::vector<Ghost> ghosts = {
+		Ghost("Blinky", {5,5}),
+		Ghost("Pinky", {10,10})
+	};
+
 	board.RenderBoard();
 	board.ChangeCell(pacman.GetPosition(), 'p');
 
@@ -165,6 +172,7 @@ void GameManager::StartGame()
 	while (isGameRunning) {
 			//Pacman Input
 		inputManager.Update();
+		MoveDirection previousDir = pacman.GetDirection();
 		if (inputManager.IsButtonDown()) 
 		{
 			if (state.IsUp()) pacman.SetDirection(MoveDirection::UP);
@@ -174,12 +182,31 @@ void GameManager::StartGame()
 		}
 		std::pair<int, int>  currentPos = pacman.GetPosition();
 		std::pair<int, int> checkNewPos = pacman.TryGetNewPosition();
+		checkNewPos = board.WrapPosition(checkNewPos);
+
 
 		if (board.IsCellTraversible(checkNewPos))
 		{
 			board.RestoreCell(currentPos);   // restore what was there
 			pacman.SetPosition(checkNewPos);
 			board.ChangeCell(checkNewPos, 'P');
+		}
+		else 
+		{
+			pacman.SetDirection(previousDir);
+		}
+
+		for (auto& ghost : ghosts) {
+			ghost.ChooseRandomDirection();          // pick a new random direction
+			auto ghostCurrent = ghost.GetPosition();
+			auto ghostNew = ghost.TryGetNewPosition();
+			ghostNew = board.WrapPosition(ghostNew);
+
+			if (board.IsCellTraversible(ghostNew)) { // check board externally
+				board.RestoreCell(ghostCurrent);
+				ghost.SetPosition(ghostNew);
+				board.ChangeCell(ghostNew, 'G');
+			}
 		}
 
 
