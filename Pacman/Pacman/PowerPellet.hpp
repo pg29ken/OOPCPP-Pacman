@@ -7,8 +7,9 @@
 class PowerPellet : public Consumable
 {
 public:
-	PowerPellet(std::string Name, std::pair<int, int> Position) : Consumable(Name, Position) 
+	PowerPellet(std::string Name, std::pair<int, int> Position) : Consumable(Name, Position)
 	{
+		_consumableEffect = FreightMode;
 		_points = 50;
 	}
 	void OnConsumed(); // Calls Game Manager -> turns on FreightMode

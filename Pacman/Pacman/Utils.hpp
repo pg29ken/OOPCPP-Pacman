@@ -20,3 +20,4 @@ enum MoveDirection
 
 #define WHITE_BG "\033[47;30m"
 #define RESET_COLORS "\033[0m"
+#define BLUE "\033[34m"

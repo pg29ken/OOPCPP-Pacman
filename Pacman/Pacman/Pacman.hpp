@@ -8,17 +8,23 @@
 class Pacman : public Entity
 {
 public:
-	Pacman() : Entity(), _lives(0) 
+	Pacman() : Entity(), _lives(3) 
 	{
 		_name = "Pacman";
 		_position = { 26, 15 };
 	}
+	Pacman(std::pair<int,int> startPos) : Entity(), _lives(3) 
+	{
+		_name = "Pacman";
+		_position = { startPos.first, startPos.second };
+	}
 
 	void Tick(float deltaTime) override;
-
+	void SetLives(int newLives);
+	void OnDeath() override;
+	int GetLives();
 private:
 	int _lives;
 
-	void OnDeath() override;
 	void EatConsumable(Consumable consumable);
 };

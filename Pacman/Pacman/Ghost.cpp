@@ -45,3 +45,27 @@ bool Ghost::IsOppositeDirection(MoveDirection a, MoveDirection b)
         (a == RIGHT && b == LEFT);
 }
 
+void Ghost::Tick(float deltaTime)
+{
+    if (_isActive == false)
+    {
+        _ghostRespawnTimer -= deltaTime;
+        if (_ghostRespawnTimer <= 0.0f)
+        {
+            _isActive = true;
+            _ghostRespawnTimer= 0.0f;
+        }
+    }
+}
+
+bool Ghost::IsActive()
+{
+    return _isActive;
+}
+
+void Ghost::KillGhost()
+{
+    _isActive = false;
+    _ghostRespawnTimer = _ghostRespawnDuration;
+}
+

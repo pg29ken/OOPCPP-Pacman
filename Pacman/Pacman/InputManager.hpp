@@ -16,7 +16,7 @@ public:
     bool IsLeft()   const    { return (_input & FLAG_LEFT)  != 0; }
     bool IsRight()  const    { return (_input & FLAG_RIGHT) != 0; }
     bool IsEnter()  const    { return (_input & FLAG_ENTER) != 0; }
-    bool IsEscape() const    { return (_input * FLAG_ESC)   != 0; }
+    bool IsEscape() const    { return (_input & FLAG_ESC)   != 0; }
 
 private:
     unsigned int _input : 6;

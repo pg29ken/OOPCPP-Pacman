@@ -3,6 +3,13 @@
 #pragma once
 #include "Utils.hpp"
 #include "Object.hpp"
+#include "Ghost.hpp"
+
+enum ConsumableEffect
+{
+	None,
+	FreightMode
+};
 
 class Consumable : public Object
 {
@@ -15,7 +22,9 @@ public:
 	bool IsActive();
 	void SetActiveState(bool state);
 	int GetPoints();
+	ConsumableEffect GetEffect();
 protected:
 	int _points = 0;
 	bool _activated = true;
+	ConsumableEffect _consumableEffect = None;
 };

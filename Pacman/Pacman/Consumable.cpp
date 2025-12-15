@@ -14,3 +14,8 @@ int Consumable::GetPoints()
 {
     return _points;
 }
+
+ConsumableEffect Consumable::GetEffect()
+{
+    return _consumableEffect;
+}

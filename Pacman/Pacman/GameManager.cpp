@@ -35,15 +35,15 @@ void GameManager::PauseGame()
 				inMenu = false;
 				TickManager::GetInstance()->StartAutoTick();
 				std::system("cls");
+				GetInstance()->_gameBoard->RenderBoard();
 				break;
 			case 1:
-				// Restart logic here
+				StartGame();
 				inMenu = false;
 				break;
 			case 2:
-				inMenu = false;
-				StartMenu();
-				break;
+				std::exit(0);
+				return;
 			}
 		}
 		else if (state.IsUp() || state.IsDown())
@@ -105,6 +105,7 @@ void GameManager::StartMenu()
 			case 0:
 				inMenu = false;
 				TickManager::GetInstance()->StartAutoTick();
+				StartGame();
 				break;
 			case 1:
 				inMenu = false;
@@ -143,6 +144,8 @@ void GameManager::StartMenu()
 			keyWasPressed = false;
 		}
 
+		
+
 		Sleep(50);
 	}
 }
@@ -154,22 +157,24 @@ void GameManager::StartMenu()
 
 void GameManager::StartGame()
 {
+	GetInstance()->_points = 0;
+	std::system("cls");
 	InputManager inputManager;
 	const InputState& state = inputManager.GetState();
-	Board board;
-	Pacman pacman;
+	GetInstance()->_gameBoard = new Board;
+	Pacman pacman(GetInstance()->_pacmanStartPos);
 
-	std::vector<Ghost> ghosts = {
-		Ghost("Blinky", {5,5}),
-		Ghost("Pinky", {10,10})
-	};
+	GetInstance()->_ghosts.clear(); // Clear any old ghosts
+	GetInstance()->_ghosts.push_back(new Ghost("Blinky", GetInstance()->_ghostHome));
+	GetInstance()->_ghosts.push_back(new Ghost("Pinky", GetInstance()->_ghostHome));
 
-	board.RenderBoard();
-	board.ChangeCell(pacman.GetPosition(), 'p');
+
+	GetInstance()->_gameBoard->RenderBoard();
+	GetInstance()->_gameBoard->ChangeCell(pacman.GetPosition(), 'p');
 
 	TickManager::GetInstance()->StartAutoTick(1000);
-	bool isGameRunning = true;
-	while (isGameRunning) {
+	GetInstance()->_isGameRunning = true;
+	while (GetInstance()->_isGameRunning) {
 			//Pacman Input
 		inputManager.Update();
 		MoveDirection previousDir = pacman.GetDirection();
@@ -179,43 +184,73 @@ void GameManager::StartGame()
 			if (state.IsDown()) pacman.SetDirection(MoveDirection::DOWN);
 			if (state.IsLeft()) pacman.SetDirection(MoveDirection::LEFT);
 			if (state.IsRight()) pacman.SetDirection(MoveDirection::RIGHT);
+			if (state.IsEscape()) PauseGame();
 		}
 		std::pair<int, int>  currentPos = pacman.GetPosition();
 		std::pair<int, int> checkNewPos = pacman.TryGetNewPosition();
-		checkNewPos = board.WrapPosition(checkNewPos);
+		checkNewPos = GetInstance()->_gameBoard->WrapPosition(checkNewPos);
 
 
-		if (board.CellContainsConsumable(checkNewPos))
+		if (GetInstance()->_gameBoard->CellContainsConsumable(checkNewPos))
 		{
-			board.dataBoard[checkNewPos.first][checkNewPos.second]->SetActiveState(false);
-			board.dataBoard[checkNewPos.first][checkNewPos.second]->OnConsumed();
-			GetInstance()->_points += board.dataBoard[checkNewPos.first][checkNewPos.second]->GetPoints();
+			GetInstance()->_gameBoard->dataBoard[checkNewPos.first][checkNewPos.second]->SetActiveState(false);
+			if (GetInstance()->_gameBoard->dataBoard[checkNewPos.first][checkNewPos.second]->GetEffect() == FreightMode)
+			{
+				ActivateFreightMode();
+			}
+			GetInstance()->_points += GetInstance()->_gameBoard->dataBoard[checkNewPos.first][checkNewPos.second]->GetPoints();
 		}
-		if (board.IsCellTraversible(checkNewPos))
+		if (GetInstance()->_gameBoard->IsCellTraversible(checkNewPos))
 		{
-			board.RestoreCell(currentPos);   // restore what was there
+			GetInstance()->_gameBoard->RestoreCell(currentPos);   // restore what was there
 			pacman.SetPosition(checkNewPos);
-			board.ChangeCell(checkNewPos, 'P');
+			GetInstance()->_gameBoard->ChangeCell(checkNewPos, 'P');
 		}
 		else 
 		{
 			pacman.SetDirection(previousDir);
 		}
 
-		for (auto& ghost : ghosts) {
-			ghost.ChooseRandomDirection();          // pick a new random direction
-			auto ghostCurrent = ghost.GetPosition();
-			auto ghostNew = ghost.TryGetNewPosition();
-			ghostNew = board.WrapPosition(ghostNew);
+		for (auto& ghost : GetInstance()->_ghosts) {
+			if (!ghost->IsActive()) continue;
+			ghost->ChooseRandomDirection();          // pick a new random direction
+			auto ghostCurrent = ghost->GetPosition();
+			auto ghostNew = ghost->TryGetNewPosition();
+			ghostNew = GetInstance()->_gameBoard->WrapPosition(ghostNew);
 
-			if (board.IsCellTraversible(ghostNew)) { // check board externally
-				board.RestoreCell(ghostCurrent);
-				ghost.SetPosition(ghostNew);
-				board.ChangeCell(ghostNew, 'G');
+			if (GetInstance()->_gameBoard->IsCellTraversible(ghostNew)) { // check board externally
+				GetInstance()->_gameBoard->RestoreCell(ghostCurrent);
+				ghost->SetPosition(ghostNew);
+				if (GetInstance()->_freightMode) LOG(BLUE);
+				GetInstance()->_gameBoard->ChangeCell(ghostNew, 'G');
+				LOG(RESET_COLORS);
+			}
+
+			if (ghost->GetPosition() == pacman.GetPosition())
+			{
+				if (GetInstance()->_freightMode)
+				{
+					Sleep(50);
+					GetInstance()->_points += 200 * GetInstance()->_freightMultiplier;
+					GetInstance()->_freightMultiplier *= 2;
+					ghost->SetPosition(GetInstance()->_ghostHome);
+					ghost->KillGhost();
+				}
+				else
+				{
+					// Kill pacman
+					Sleep(2000);
+					pacman.SetPosition(GetInstance()->_pacmanStartPos);
+					pacman.OnDeath();
+
+					if (pacman.GetLives() <= 0)
+					{
+						StartMenu();
+						return;
+					}
+				}
 			}
 		}
-
-
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	}
 	TickManager::GetInstance()->StopAutoTick();
@@ -236,6 +271,32 @@ GameManager* GameManager::GetInstance()
 	return _sInstance;
 }
 
+void GameManager::ActivateFreightMode()
+{
+	GetInstance()->_freightMode = true;
+	GetInstance()->_freightModeTimer = GetInstance()->_freightModeDuration;
+}
+
+void GameManager::Tick(float deltaTime)
+{
+	if (_freightMode)
+	{
+		_freightModeTimer -= deltaTime;
+		if (_freightModeTimer <= 0.0f)
+		{
+			_freightMode = false;
+			_freightModeTimer = 0.0f;
+			_freightMultiplier = 1;
+		}
+	}
+}
+
+int GameManager::GetPoints()
+{
+	return _points;
+}
+
+
 // Menu Graphics
 
 void MenuGraphics::StartMenuStart()
@@ -245,6 +306,8 @@ void MenuGraphics::StartMenuStart()
 	LOG_LN("============================");
 	LOG_LN("          Exit              ");
 	LOG_LN("============================");
+	LOG_LN("Points: " << GameManager::GetInstance()->GetPoints());
+
 }
 
 void MenuGraphics::StartMenuExit()
@@ -254,6 +317,9 @@ void MenuGraphics::StartMenuExit()
 	LOG_LN("============================");
 	LOG_LN(WHITE_BG << "          Exit              " << RESET_COLORS);
 	LOG_LN("============================");
+	LOG_LN("Points: " << GameManager::GetInstance()->GetPoints());
+
+
 }
 
 void MenuGraphics::PauseContinue()
@@ -265,6 +331,8 @@ void MenuGraphics::PauseContinue()
 	LOG_LN("============================");
 	LOG_LN("          Exit              ");
 	LOG_LN("============================");
+	LOG_LN("Points: " << GameManager::GetInstance()->GetPoints());
+
 }
 
 void MenuGraphics::PauseRestart()
@@ -276,6 +344,8 @@ void MenuGraphics::PauseRestart()
 	LOG_LN("============================");
 	LOG_LN("          Exit              ");
 	LOG_LN("============================");
+	LOG_LN("Points: " << GameManager::GetInstance()->GetPoints());
+
 }
 
 void MenuGraphics::PauseExit()
@@ -287,4 +357,6 @@ void MenuGraphics::PauseExit()
 	LOG_LN("============================");
 	LOG_LN(WHITE_BG << "          Exit              " << RESET_COLORS);
 	LOG_LN("============================");
+	LOG_LN("Points: " << GameManager::GetInstance()->GetPoints());
+
 }

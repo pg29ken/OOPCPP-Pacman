@@ -15,7 +15,7 @@ int main()
     // gamemanager
 
 
-    GameManager::GetInstance()->StartGame();
+    GameManager::GetInstance()->StartMenu();
     //GameManager::GetInstance()->PauseGame();
     
     //std::cout << "Ticking : " << this << std::endl;
