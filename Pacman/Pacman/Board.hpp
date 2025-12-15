@@ -52,6 +52,7 @@ public:
     void RenderBoard();
     void ChangeCell(std::pair<int, int> pos, char newChar);
     bool IsCellTraversible(std::pair<int, int> pos);
+    bool CellContainsConsumable(std::pair<int, int> pos);
     char GetCharacterAtPos(std::pair<int, int> pos);
     void DrawCell(std::pair<int, int> pos);
     void RestoreCell(std::pair<int, int> pos);

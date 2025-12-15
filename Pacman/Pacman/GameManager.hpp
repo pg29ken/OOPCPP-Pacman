@@ -16,9 +16,11 @@ public:
 	static void EndGame();
 
 	static GameManager* GetInstance();
+	int GetPoints();
 
 private:
 	static GameManager* _sInstance;
+	int _points;
 };
 
 
@@ -37,5 +39,5 @@ private:
 	static void PauseRestart();
 	static void PauseExit();
 
-
+	
 };

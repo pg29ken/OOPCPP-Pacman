@@ -181,6 +181,12 @@ void GameManager::StartGame()
 			pacman.SetPosition(checkNewPos);
 			board.ChangeCell(checkNewPos, 'P');
 		}
+		if (board.CellContainsConsumable(checkNewPos))
+		{
+			board.dataBoard[checkNewPos.first][checkNewPos.second]->SetActiveState(false);
+			board.dataBoard[checkNewPos.first][checkNewPos.second]->OnConsumed();
+			GetInstance()->_points += board.dataBoard[checkNewPos.first][checkNewPos.second]->GetPoints();
+		}
 
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -201,6 +207,11 @@ GameManager* GameManager::GetInstance()
 
 	_sInstance = new GameManager();
 	return _sInstance;
+}
+
+int GameManager::GetPoints()
+{
+	return _points;
 }
 
 // Menu Graphics
