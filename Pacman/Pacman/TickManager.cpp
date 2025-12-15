@@ -59,7 +59,7 @@ void TickManager::StartAutoTick(unsigned intervalMs)
 void TickManager::StopAutoTick()
 {
 	_autoTickRunning = false;
-	if (_autoTickThread.joinable());
+	if (_autoTickThread.joinable())
 		_autoTickThread.join();
 }
 

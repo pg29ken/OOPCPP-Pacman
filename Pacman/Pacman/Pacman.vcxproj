@@ -124,7 +124,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="PowerPellet.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="TickManager.cpp" />
@@ -133,8 +135,10 @@
     <ClInclude Include="Consumable.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="EventHandler.hpp" />
+    <ClInclude Include="GameManager.hpp" />
     <ClInclude Include="InputManager.hpp" />
     <ClInclude Include="Object.hpp" />
+    <ClInclude Include="Pacman.hpp" />
     <ClInclude Include="PowerPellet.hpp" />
     <ClInclude Include="TickManager.hpp" />
     <ClInclude Include="Utils.hpp" />
