@@ -19,6 +19,8 @@ public:
 
 private:
 	static GameManager* _sInstance;
+	int _points;
+
 };
 
 

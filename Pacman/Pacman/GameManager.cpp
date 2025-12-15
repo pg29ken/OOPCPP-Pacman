@@ -185,6 +185,12 @@ void GameManager::StartGame()
 		checkNewPos = board.WrapPosition(checkNewPos);
 
 
+		if (board.CellContainsConsumable(checkNewPos))
+		{
+			board.dataBoard[checkNewPos.first][checkNewPos.second]->SetActiveState(false);
+			board.dataBoard[checkNewPos.first][checkNewPos.second]->OnConsumed();
+			GetInstance()->_points += board.dataBoard[checkNewPos.first][checkNewPos.second]->GetPoints();
+		}
 		if (board.IsCellTraversible(checkNewPos))
 		{
 			board.RestoreCell(currentPos);   // restore what was there

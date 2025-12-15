@@ -53,6 +53,18 @@ bool Board::IsCellTraversible(std::pair<int, int> pos)
     return renderedBoard[pos.first][pos.second] != '#';
 }
 
+bool Board::CellContainsConsumable(std::pair<int, int> pos)
+{
+    if (pos.first < 0 || pos.first >= _rows || pos.second < 0 || pos.second >= _cols)
+        return false;
+    if (!dataBoard[pos.first][pos.second]) return false;
+    if (dataBoard[pos.first][pos.second]->IsActive())
+    {
+        return true;
+    }
+    return false;
+}
+
 char Board::GetCharacterAtPos(std::pair<int, int> pos)
 {
     Consumable* cell = dataBoard[pos.first][pos.second];
@@ -78,7 +90,7 @@ void Board::RestoreCell(std::pair<int, int> pos)
 {
     Consumable* cell = dataBoard[pos.first][pos.second];
 
-    if (!cell)
+    if (!cell || !cell->IsActive())
     {
         ChangeCell(pos, ' ');
         return;
