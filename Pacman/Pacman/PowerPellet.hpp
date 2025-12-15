@@ -7,7 +7,7 @@
 class PowerPellet : public Consumable
 {
 public:
-	void OnConsume(); // Calls Game Manager -> turns on FreightMode
+	void OnConsumed(); // Calls Game Manager -> turns on FreightMode
 private:
 
 };

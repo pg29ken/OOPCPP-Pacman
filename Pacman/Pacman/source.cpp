@@ -1,6 +1,7 @@
 #include <iostream>
 #include <windows.h>
 #include "Utils.hpp"
+#include "TickManager.hpp"
 #include "InputManager.hpp"
 #include "Board.hpp"
 #include "Entity.hpp"
@@ -15,6 +16,11 @@ int main()
 
     bool running = true;
     int time = 0;
+
+    TickObject A;
+    TickObject B;
+    TickObject C;
+    TickManager::GetInstance()->StartAutoTick(1000);
     while (running)
     {
         if (time % 40000000 == 0)
@@ -38,6 +44,8 @@ int main()
 
         time++;
     }
+    TickManager::GetInstance()->StartAutoTick();
+    //std::cout << "Ticking : " << this << std::endl;
 
     LOG_LN("Exiting...\n");
     return 0;

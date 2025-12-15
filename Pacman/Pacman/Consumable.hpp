@@ -9,6 +9,7 @@ class Consumable : public Object
 public:
 	Consumable(std::string Name, std::pair<int,int> Position) : Object(Name, Position), _points(10) { }
 	Consumable(std::string Name) : Object(Name), _points(10) { }
+	virtual void OnConsumed() { };
 protected:
 	int _points;
 };
