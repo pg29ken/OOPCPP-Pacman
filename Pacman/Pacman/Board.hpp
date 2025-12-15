@@ -46,6 +46,7 @@ public:
     };
 
 
+
     Consumable* dataBoard[_rows][_cols + 1] = {nullptr};
 
     void RenderBoard();

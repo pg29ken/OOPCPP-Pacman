@@ -11,7 +11,7 @@ public:
 	Pacman() : Entity(), _lives(0) 
 	{
 		_name = "Pacman";
-		_position = { 23, 13 };
+		_position = { 26, 15 };
 	}
 
 	void Tick(float deltaTime) override;

@@ -1,5 +1,5 @@
-﻿  Board.cpp
-  GameManager.cpp
+﻿  GameManager.cpp
+  Pacman.cpp
   source.cpp
   Generating Code...
   Pacman.vcxproj -> C:\Users\pg29vi\Documents\GitHub\OOPCPP-Pacman\Pacman\x64\Debug\Pacman.exe
