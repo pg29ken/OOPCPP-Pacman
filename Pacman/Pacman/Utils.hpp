@@ -14,3 +14,9 @@ enum MoveDirection
 	LEFT,
 	DOWN
 };
+
+
+// Colors
+
+#define WHITE_BG "\033[47;30m"
+#define RESET_COLORS "\033[0m"

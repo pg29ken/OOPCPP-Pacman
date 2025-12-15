@@ -3,16 +3,13 @@
 #include "Utils.hpp"
 #include "TickManager.hpp"
 #include "InputManager.hpp"
-#include "Board.hpp"
-#include "Entity.hpp"
+#include "GameManager.hpp"
+
 int main()
 {
     InputManager inputMgr;
-    Board board;
-    Entity pacman = Entity("Pacman", {26, 13});
 
     LOG_LN("Press arrow keys (UP, DOWN, LEFT, RIGHT). Press 'Q' to quit.\n");
-    board.RenderBoard();
 
     bool running = true;
     int time = 0;
@@ -21,30 +18,8 @@ int main()
     TickObject B;
     TickObject C;
     TickManager::GetInstance()->StartAutoTick(1000);
-    while (running)
-    {
-        if (time % 40000000 == 0)
-        {
-            inputMgr.Update();
-
-            const InputState& state = inputMgr.GetState();
-
-            if (state.IsUp()) pacman.SetDirection(MoveDirection::UP);
-            else if (state.IsDown())  pacman.SetDirection(MoveDirection::DOWN);
-            else if (state.IsLeft())  pacman.SetDirection(MoveDirection::LEFT);
-            else if (state.IsRight()) pacman.SetDirection(MoveDirection::RIGHT);
-
-            if (GetAsyncKeyState('Q') & 0x8000)
-                running = false;
-
-            LOG_LN(pacman.GetDirection());
-            // call pacman.move
-            // call ghost.move
-        }
-
-        time++;
-    }
-    TickManager::GetInstance()->StartAutoTick();
+    GameManager::GetInstance()->PauseGame();
+    TickManager::GetInstance()->StopAutoTick();
     //std::cout << "Ticking : " << this << std::endl;
 
     LOG_LN("Exiting...\n");

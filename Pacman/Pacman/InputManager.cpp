@@ -4,15 +4,6 @@
 #include <windows.h>
 #include "EventHandler.hpp"
 
-EventHandler::EventHandler()
-{
-}
-
-void EventHandler::TickFunction()
-{
-    //while ()
-}
-
 void InputManager::Update()
 {
     _state._input = 0;
@@ -32,6 +23,14 @@ void InputManager::Update()
     else if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
     {
         _state._input |= InputState::FLAG_RIGHT;
+    }
+    if (GetAsyncKeyState(VK_RETURN) & 0x8000) 
+    {
+        _state._input |= InputState::FLAG_ENTER;
+    }
+    if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+    {
+        _state._input |= InputState::FLAG_ESC;
     }
 }
 
