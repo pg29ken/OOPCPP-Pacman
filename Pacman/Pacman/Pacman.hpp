@@ -15,7 +15,6 @@ public:
 	}
 
 	void Tick(float deltaTime) override;
-	void Controller() override;
 
 private:
 	int _lives;

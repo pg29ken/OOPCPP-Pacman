@@ -27,7 +27,7 @@ public:
         "     #.##### ## #####.#     ",
         "     #.##          ##.#     ",
         "######.## ######## ##.######",
-        "      .   ########   .      ",
+        "      .   #      #   .      ",
         "######.## ######## ##.######",
         "     #.##          ##.#     ",
         "     #.## ######## ##.#     ",
@@ -55,6 +55,9 @@ public:
     char GetCharacterAtPos(std::pair<int, int> pos);
     void DrawCell(std::pair<int, int> pos);
     void RestoreCell(std::pair<int, int> pos);
+    std::pair<int, int> WrapPosition(const std::pair<int, int>& pos);
+    
+
 
 private:
 
