@@ -8,12 +8,18 @@
 class Pacman : public Entity
 {
 public:
-	Pacman() : Entity(), _lives (0) { _name = "Pacman"; }
+	Pacman() : Entity(), _lives(0) 
+	{
+		_name = "Pacman";
+		_position = { 23, 13 };
+	}
+
+	void Tick(float deltaTime) override;
+	void Controller() override;
 
 private:
 	int _lives;
 
-	void Controller() override;
 	void OnDeath() override;
 	void EatConsumable(Consumable consumable);
 };

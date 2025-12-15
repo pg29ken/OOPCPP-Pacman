@@ -40,8 +40,6 @@ class TickObject
 {
 public:
     TickObject();
-    void Tick(float deltaTime) 
-    {
-        std::cout << "Ticking : " << this;
-    };
+    virtual  ~TickObject();
+    virtual void Tick(float deltaTime);
 };

@@ -3,6 +3,8 @@
 #include "GameManager.hpp"
 #include "TickManager.hpp"	
 #include "InputManager.hpp"
+#include "Board.hpp"
+#include "Pacman.hpp"
 #include <cstdlib>
 #include <windows.h>
 
@@ -31,6 +33,7 @@ void GameManager::PauseGame()
 			case 0:
 				inMenu = false;
 				TickManager::GetInstance()->StartAutoTick();
+				std::system("cls");
 				break;
 			case 1:
 				// Restart logic here
@@ -142,10 +145,47 @@ void GameManager::StartMenu()
 		Sleep(50);
 	}
 }
-void GameManager::EndScreen()
+//void GameManager::EndScreen()
+//{
+//	TickManager::GetInstance()->StopAutoTick();
+//	std::system("cls");
+//}
+
+void GameManager::StartGame()
 {
+	InputManager inputManager;
+	const InputState& state = inputManager.GetState();
+	Board board;
+	Pacman pacman;
+	board.ChangeCell(pacman.GetPosition(), 'p');
+	board.RenderBoard();
+
+	TickManager::GetInstance()->StartAutoTick(1000);
+	bool isGameRunning = true;
+	while (isGameRunning) {
+			//Pacman Input
+		inputManager.Update();
+		if (inputManager.IsButtonDown()) 
+		{
+			if (state.IsUp()) pacman.SetDirection(MoveDirection::UP);
+			if (state.IsDown()) pacman.SetDirection(MoveDirection::DOWN);
+			if (state.IsLeft()) pacman.SetDirection(MoveDirection::LEFT);
+			if (state.IsRight()) pacman.SetDirection(MoveDirection::RIGHT);
+		}
+		std::pair<int, int>  currentPos = pacman.GetPosition();
+		std::pair<int, int> checkNewPos = pacman.TryGetNewPosition();
+
+		if (board.IsCellTraversible(checkNewPos))
+		{
+			board.RestoreCell(currentPos);   // restore what was there
+			pacman.SetPosition(checkNewPos);
+			board.ChangeCell(checkNewPos, 'P');
+		}
+
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	}
 	TickManager::GetInstance()->StopAutoTick();
-	std::system("cls");
 }
 
 void GameManager::EndGame()

@@ -2,8 +2,10 @@
 
 #pragma once
 #include "Utils.hpp"
+#include "TickManager.hpp"
 
-class Object
+
+class Object : public TickObject
 {
 public:
 	Object() {}

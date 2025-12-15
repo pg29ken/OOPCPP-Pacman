@@ -4,22 +4,21 @@
 #include "TickManager.hpp"
 #include "InputManager.hpp"
 #include "GameManager.hpp"
+#include "Board.hpp"
+#include "Pacman.hpp"
 
 int main()
 {
     InputManager inputMgr;
-
+    // BOard
+    Pacman player;
+    // gamemanager
     LOG_LN("Press arrow keys (UP, DOWN, LEFT, RIGHT). Press 'Q' to quit.\n");
 
-    bool running = true;
-    int time = 0;
 
-    TickObject A;
-    TickObject B;
-    TickObject C;
-    TickManager::GetInstance()->StartAutoTick(1000);
-    GameManager::GetInstance()->PauseGame();
-    TickManager::GetInstance()->StopAutoTick();
+    GameManager::GetInstance()->StartGame();
+    //GameManager::GetInstance()->PauseGame();
+    
     //std::cout << "Ticking : " << this << std::endl;
 
     LOG_LN("Exiting...\n");

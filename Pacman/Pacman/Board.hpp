@@ -2,12 +2,13 @@
 #pragma once
 
 #include "Object.hpp"
-
+#include "Consumable.hpp"
 class Board
 {
 public:
 
-    Board() {};
+    Board();
+    ~Board();
     static const int _rows = 31;
     static const int _cols = 28;
 
@@ -44,12 +45,16 @@ public:
         "############################"
     };
 
-    Object dataBoard[_rows][_cols + 1] = { };
+    Consumable* dataBoard[_rows][_cols + 1] = {nullptr};
 
     void RenderBoard();
+    void ChangeCell(std::pair<int, int> pos, char newChar);
+    bool IsCellTraversible(std::pair<int, int> pos);
+    char GetCharacterAtPos(std::pair<int, int> pos);
+    void DrawCell(std::pair<int, int> pos);
+    void RestoreCell(std::pair<int, int> pos);
 
 private:
-    void Init();
 
 
 };

@@ -10,8 +10,9 @@ class GameManager
 public:
 	static void StartMenu();
 	static void PauseGame();
-	static void WinScreen();
+	//static void WinScreen();
 
+	static void StartGame();
 	static void EndGame();
 
 	static GameManager* GetInstance();
