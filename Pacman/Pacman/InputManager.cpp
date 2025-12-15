@@ -1,3 +1,5 @@
+// Copyright @ Ken Arigo - VFS 2025-2026
+
 #include "InputManager.hpp"
 #include <windows.h>
 #include "EventHandler.hpp"

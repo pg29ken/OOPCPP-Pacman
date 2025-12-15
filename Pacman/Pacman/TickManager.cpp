@@ -25,6 +25,10 @@ TickObject::TickObject()
 	}
 }
 
+TickObject::~TickObject()
+{
+}
+
 void TickManager::Tick(float deltaTime)
 {
 	std::lock_guard<std::mutex> lock(_mut);
@@ -67,3 +71,5 @@ TickManager::TickManager()
 {
 	_autoTickRunning = false;
 }
+
+void TickObject::Tick(float deltaTime) {}

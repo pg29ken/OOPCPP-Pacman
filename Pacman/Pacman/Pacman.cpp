@@ -1,7 +1,13 @@
 #include "Pacman.hpp"
 
+void Pacman::Tick(float deltaTime)
+{
+	//LOG_LN("dwadhu");
+}
+
 void Pacman::Controller()
 {
+
 }
 
 void Pacman::OnDeath()
